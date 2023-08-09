@@ -1,35 +1,33 @@
 public class Persona {
-    private static Persona instance=new Persona();
-    private String Ci;
+    private String ci;
     private String nombre;
-    private status EstadoActual;
+    private status estadoActual;
     public enum status {ACTIVO, LICENCIA, INACTIVO};
 
-    private Persona() {
-    }
-
-    public static Persona getInstance(){
-        return instance;
+    public Persona(String ci, String nombre, status estadoActual) {
+        this.ci = ci;
+        this.nombre = nombre;
+        this.estadoActual = estadoActual;
     }
 
     public status getEstadoActual() {
-        return EstadoActual;
+        return this.estadoActual;
     }
 
     public void setEstadoActual(status estadoActual) {
-        EstadoActual = estadoActual;
+        this.estadoActual = estadoActual;
     }
 
     public String getCi() {
-        return Ci;
+        return this.ci;
     }
 
     public void setCi(String ci) {
-        Ci = ci;
+        this.ci = ci;
     }
 
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
 
     public void setNombre(String nombre) {
@@ -37,10 +35,10 @@ public class Persona {
     }
 
     @Override
-    public String toString() {
-        return "Personas{" +
-                "Ci='" + Ci + '\'' +
-                ", nombre='" + nombre + '\'' +
-                '}';
+    public String toString(){
+        return String.format(
+                "Persona:  { cedula: %s, nombre: %s, status: %s }",
+                this.ci, this.nombre, this.estadoActual.name()
+        );
     }
 }

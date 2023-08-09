@@ -1,35 +1,79 @@
+import java.util.ArrayList;
+
 public class Casino {
-    private static Casino instance = new Casino();
-    private static String NombreCasino;
-    private Persona ResponsableCasino;
+    private static Casino instancia;
+    private String nombre;
+    private Persona responsable;
+
+    private ArrayList<Juego> juegosDeSlot;
+    private ArrayList<Juego> juegosDeMesa;
+    private final byte cantidadMaximaJuegosSlots = 8;
+    private final byte cantidadMaximaJuegosDeMesa = 2;
 
     private Casino() {
+        this.juegosDeSlot = new ArrayList<>();
+        this.juegosDeMesa = new ArrayList<>();
     }
 
-    public static Casino getInstance(){
-        return instance;
+    public static Casino getInstancia(){
+        if(instancia == null) instancia = new Casino();
+        return instancia;
     }
 
-    public static String getNombreCasino() {
-        return NombreCasino;
+    public  String getNombre() {
+        return this.nombre;
     }
 
-    public  void setNombreCasino(String nombreCasino) {
-        NombreCasino = nombreCasino;
+    public  void setNombre(String nombreCasino) {
+        this.nombre = nombreCasino;
     }
 
-    public Persona getResponsableCasino() {
-        return ResponsableCasino;
+    public Persona getResponsable() {
+        return this.responsable;
     }
 
-    public void setResponsableCasino(Persona responsableCasino) {
-        ResponsableCasino = responsableCasino;
+    public void setResponsable(Persona responsable) {
+        this.responsable = responsable;
+    }
+
+    public void agregarJuego(Juego juego) throws JuegosCompletosException {
+        if(!(juego instanceof JuegoMesa || juego instanceof JuegoSlot)) return;
+
+        boolean juegoSlotInvalido = juego instanceof JuegoSlot && this.juegosDeSlot.size() == cantidadMaximaJuegosSlots;
+        boolean juegoMesaInvalido = juego instanceof JuegoMesa && this.juegosDeMesa.size() == cantidadMaximaJuegosDeMesa;
+        if(juegoSlotInvalido || juegoMesaInvalido){
+            String tipo = juego instanceof JuegoSlot ? "slot" : "mesa";
+            throw new JuegosCompletosException(juego.nombre, tipo);
+        }
+
+        if(juego instanceof  JuegoSlot){
+            this.juegosDeSlot.add(juego);
+        } else {
+            this.juegosDeMesa.add(juego);
+        }
+
+        System.out.println(String.format("Se agregó el juego %s al casino", juego.getNombre()));
+    }
+
+    private String formatearJuegos(boolean esDeSlot, int cantidadEspaciosIndentacion){
+        String indentacion = " ".repeat(cantidadEspaciosIndentacion);
+        String juegosFormateados = "";
+        for(Juego juego : esDeSlot ? this.juegosDeSlot : this.juegosDeMesa){
+            juegosFormateados += indentacion + juego + "\n";
+        }
+
+        return juegosFormateados;
     }
 
     @Override
-    public String toString() {
-        return "Casino{" +
-                "ResponsableCasino=" + ResponsableCasino +
-                '}';
+    public String toString(){
+
+        String juegosDeMesaFormateados = formatearJuegos(false, 4);
+        String juegosDeSlotFormateados = formatearJuegos(true, 4);
+
+       return "Casino {\n  nombre: " + this.nombre + ",\n  responsable: " +
+               this.responsable + ",\n  cantidadJuegosDeSlot: " + this.juegosDeSlot.size() +
+               ",\n  juegosDeSlot: [\n" + juegosDeSlotFormateados + "  ]" + ",\n  cantidadJuegosDeMesa: " +
+               this.juegosDeMesa.size() + ",\n  juegosDeMesa: [\n" + juegosDeMesaFormateados + "  ]" + "\n}";
     }
 }
