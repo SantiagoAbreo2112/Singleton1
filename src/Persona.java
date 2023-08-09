@@ -1,20 +1,20 @@
 public class Persona {
     private String ci;
     private String nombre;
-    private status estadoActual;
-    public enum status {ACTIVO, LICENCIA, INACTIVO};
+    public enum Status {ACTIVO, LICENCIA, INACTIVO};
+    private Status estadoActual;
 
-    public Persona(String ci, String nombre, status estadoActual) {
+    public Persona(String ci, String nombre, Status estadoActual) {
         this.ci = ci;
         this.nombre = nombre;
         this.estadoActual = estadoActual;
     }
 
-    public status getEstadoActual() {
+    public Status getEstadoActual() {
         return this.estadoActual;
     }
 
-    public void setEstadoActual(status estadoActual) {
+    public void setEstadoActual(Status estadoActual) {
         this.estadoActual = estadoActual;
     }
 

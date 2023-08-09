@@ -1,17 +1,17 @@
 public class JuegoSlot extends Juego{
-    public enum tipoDeSlot {PALANCA, BOTONES};
-    private tipoDeSlot tipo;
+    public enum TipoDeSlot {PALANCA, BOTONES};
+    private TipoDeSlot tipo;
 
-    public JuegoSlot(String nombre, tipoDeSlot tipo){
+    public JuegoSlot(String nombre, TipoDeSlot tipo){
         super(nombre);
         this.tipo = tipo;
     }
 
-    public tipoDeSlot getTipo() {
+    public TipoDeSlot getTipo() {
         return this.tipo;
     }
 
-    public void setTipo(tipoDeSlot tipo) {
+    public void setTipo(TipoDeSlot tipo) {
         this.tipo = tipo;
     }
 
